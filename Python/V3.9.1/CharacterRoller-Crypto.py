@@ -36,7 +36,7 @@
 ## Status: In Development
 ###############################################################################
 
-## system imports
+## System Imports
 import string
 import secrets
 
