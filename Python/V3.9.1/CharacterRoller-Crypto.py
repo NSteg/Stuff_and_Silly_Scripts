@@ -11,7 +11,7 @@
 # Version: 0.5
 
 
-## Copyright: Copyright (C) 2021, profileXX
+## Copyright: Copyright (C) 2021, CharacterRoller-Crypto
 
 ## License: GNU GPL 3.0 : https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -31,35 +31,54 @@
 ## Ver.0.1.0
 
 ## Maintainers: Nicholas Stegelman
-# Last Updated: 2021-08-27
+# Last Updated: 2022-04-30
 
 ## Status: In Development
 ###############################################################################
 
 ## System Imports
-import string
+import argparse
 import secrets
+import string
+
+# Set Up
+parser = argparse.ArgumentParser()
+parser.add_argument("-c", help="Run once, roll more than one(1) Character", 
+                    type=int)
+parser.add_argument("--characters", 
+                    help="Run once, roll more than one(1) Character", type=int)
+argv = parser.parse_args()
 
 # Main
 rolls = [0, 1, 2, 3]
 statBlock = [0, 1, 2, 3, 4, 5]
 
-for stat in statBlock:
-    # print(stat) # Debug Print
-    for roll in range(4):
-        # print("Roll: ", roll+1) # Debug Print
-        rolls[roll] = (secrets.randbits(64) % 6 + 1)
-    # print("Before Sort: ", rolls) # Debug Print
-    rolls.sort(reverse=True)
-    # print("After Sort: ", rolls) # Debug Print
-    bestThree = 0
-    for i in range(3):
-        bestThree += rolls[i]
-    #print(bestThree) # Debug Print
-    statBlock[stat] = bestThree
-statBlock.sort(reverse=True)
-print("Crypto generated stats: ", statBlock)
+if argv.c:
+    statArray = argv.c
+else:
+    statArray = 1
+
+for i in range(statArray):
+    for stat in range(len(statBlock)):
+        # print(stat) # Debug Print
+        for roll in range(len(rolls)):
+            # print("Roll: ", roll+1) # Debug Print
+            rolls[roll] = (secrets.randbits(64) % 6 + 1)
+        # print("Before Sort: ", rolls) # Debug Print
+        rolls.sort(reverse=True)
+        # print("After Sort: ", rolls) # Debug Print
+        bestThree = 0
+        for i in range(3):
+            bestThree += rolls[i]
+        #print(bestThree) # Debug Print
+        statBlock[stat] = bestThree
+    statBlock.sort(reverse=True)
+    aveRoll = 0
+    for stat in statBlock:
+        aveRoll += stat
+    # aveRoll = aveRoll // 6 # Integer Division
+    print("Crypto generated stats: ", statBlock, '\n', "Average Roll: ", 
+            aveRoll//6, '(', round(aveRoll/6, 2), ')')
 
 # TODO:
 # Reroll Threshhold
-# Generate Multiple Statblocks
