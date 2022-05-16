@@ -31,9 +31,9 @@
 ## Ver.0.1.0
 
 ## Maintainers: Nicholas Stegelman
-# Last Updated: 2022-04-30
+# Last Updated: 2022-05-16
 
-## Status: In Development
+## Status: Development on Hold
 ###############################################################################
 
 ## System Imports
@@ -43,6 +43,9 @@ import string
 
 # Set Up
 parser = argparse.ArgumentParser()
+parser.add_argument("--average", 
+                    help="Use if you need a minimum average roll for a " + 
+                    "character's stats.", type=int)
 parser.add_argument("-c", help="Run once, roll more than one(1) Character", 
                     type=int)
 parser.add_argument("--characters", 
@@ -53,12 +56,24 @@ argv = parser.parse_args()
 rolls = [0, 1, 2, 3]
 statBlock = [0, 1, 2, 3, 4, 5]
 
+
+# Set variable for multiple rolls, if applicable
 if argv.c:
     statArray = argv.c
+elif argv.characters:
+    statArray = argv.characters
 else:
     statArray = 1
 
-for i in range(statArray):
+# Set a minimum average roll value, or use 0
+threshold = 0
+if argv.average:
+    # print("average caught\n") # Debug Print
+    threshold = argv.average
+# print("Target Average: ", threshold, '\n') # Debug Print
+
+i=0
+while i < statArray:
     for stat in range(len(statBlock)):
         # print(stat) # Debug Print
         for roll in range(len(rolls)):
@@ -68,17 +83,23 @@ for i in range(statArray):
         rolls.sort(reverse=True)
         # print("After Sort: ", rolls) # Debug Print
         bestThree = 0
-        for i in range(3):
-            bestThree += rolls[i]
+        for j in range(3):
+            bestThree += rolls[j]
         #print(bestThree) # Debug Print
         statBlock[stat] = bestThree
     statBlock.sort(reverse=True)
     aveRoll = 0
     for stat in statBlock:
         aveRoll += stat
-    # aveRoll = aveRoll // 6 # Integer Division
-    print("Crypto generated stats: ", statBlock, '\n', "Average Roll: ", 
-            aveRoll//6, '(', round(aveRoll/6, 2), ')')
+    # print("For", i, ": aveRoll is ", aveRoll//6) # Debug Print
+    if aveRoll//6 < threshold:
+        continue
+    else:
+        # aveRoll = aveRoll // 6 # Integer Division
+        print("Crypto generated stats:", statBlock, '\n', "Average Roll:", 
+            aveRoll//6, '(', round(aveRoll/6, 2), ")\n")
+    i += 1
 
 # TODO:
-# Reroll Threshhold
+# Add timer?
+# Better
