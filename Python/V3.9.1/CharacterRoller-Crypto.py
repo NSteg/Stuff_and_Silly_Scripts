@@ -8,7 +8,6 @@
 ###############################################################################
 ## Author: Nicholas Stegelman
 # Created: 2021-08-27
-# Version: 0.5
 
 
 ## Copyright: Copyright (C) 2021, CharacterRoller-Crypto
@@ -28,10 +27,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## Ver: 1.0.0
 
 ## Maintainers: Nicholas Stegelman
 # Last Updated: 2022-05-16
+
+## Version: 1.0.0
 
 ## Status: Development on Hold
 ###############################################################################
@@ -68,38 +68,43 @@ else:
 # Set a minimum average roll value, or use 0
 threshold = 0
 if argv.average:
-    # print("average caught\n") # Debug Print
     threshold = argv.average
-# print("Target Average: ", threshold, '\n') # Debug Print
 
-i=0
+# instantiate disposable iterator.
+i = 0
+# Create user specified number of stat blocks, or default to 1
 while i < statArray:
+    # Iterate through the six stats for each stat block
     for stat in range(len(statBlock)):
-        # print(stat) # Debug Print
+        # 'roll' 4d6 and store the values in List "rolls"
         for roll in range(len(rolls)):
-            # print("Roll: ", roll+1) # Debug Print
             rolls[roll] = (secrets.randbits(64) % 6 + 1)
-        # print("Before Sort: ", rolls) # Debug Print
+        # Sort list "rolls" from high to low
         rolls.sort(reverse=True)
-        # print("After Sort: ", rolls) # Debug Print
         bestThree = 0
+        # De facto drop lowest 'roll' and store sum of highest 3 in List
+        #   "statBlock".
         for j in range(3):
             bestThree += rolls[j]
-        #print(bestThree) # Debug Print
         statBlock[stat] = bestThree
+    # Sort List "statBlock" for easier reading
     statBlock.sort(reverse=True)
+    # Calculate average 'roll' in List "statBlock"
     aveRoll = 0
     for stat in statBlock:
         aveRoll += stat
-    # print("For", i, ": aveRoll is ", aveRoll//6) # Debug Print
+    # Compare against user provided minimum, or use Default and 'reroll'
+    #   if needed.
     if aveRoll//6 < threshold:
         continue
     else:
-        # aveRoll = aveRoll // 6 # Integer Division
+        # Print out aveRoll as both integer and floating division
         print("Crypto generated stats:", statBlock, '\n', "Average Roll:", 
             aveRoll//6, '(', round(aveRoll/6, 2), ")\n")
     i += 1
 
 # TODO:
+# Finish making GPL compliant --> print required paragraphs
+# Consider reducing division operations on "aveRoll"
 # Add timer?
 # Better
