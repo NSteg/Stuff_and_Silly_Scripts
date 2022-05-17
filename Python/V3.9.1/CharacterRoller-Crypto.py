@@ -28,7 +28,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## Ver.0.1.0
+## Ver: 1.0.0
 
 ## Maintainers: Nicholas Stegelman
 # Last Updated: 2022-05-16
