@@ -87,7 +87,7 @@ def main():
                 sep='', end='\n')
 ## End of MAIN()
 
-# Complete Blasphamy
+# Complete Blasphemy
 if __name__ == "__main__":
     main() 
 

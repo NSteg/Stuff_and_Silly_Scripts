@@ -2,7 +2,7 @@
 # Python 3.9+
 ###############################################################################
 ## A script for 'rolling' character stats for D20 systems. 
-# Psudorandom numbers are generated using cryptographically compliant methods.
+# Pseudorandom numbers are generated using cryptographically compliant methods.
 ###############################################################################
 ## Provided as is. Distributable and extensible under GNU gpl 3.0
 ###############################################################################
@@ -100,7 +100,7 @@ while i < statArray:
     else:
         # Print out aveRoll as both integer and floating division
         print("Crypto generated stats:", statBlock, '\n', "Average Roll:", 
-            aveRoll//6, '(', round(aveRoll/6, 2), ")\n")
+            aveRoll//6, '(', round(aveRoll/6, 2), ")")
     i += 1
 
 # TODO:
